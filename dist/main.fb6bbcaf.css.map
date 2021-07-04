@@ -1,1 +1,1 @@
-{"version":3,"sources":["scss/main.scss"],"names":[],"mappings":"AAAA","file":"main.fb6bbcaf.css","sourceRoot":"../src","sourcesContent":[""]}
+{"version":3,"sources":["scss\\main.scss"],"names":[],"mappings":"AAAA;EACE","file":"main.fb6bbcaf.css","sourceRoot":"..\\src","sourcesContent":["* {\r\n  box-sizing: border-box;\r\n}\r\n"]}

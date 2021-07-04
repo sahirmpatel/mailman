@@ -1,3 +1,7 @@
-export default function hi() {
-  console.log("hi");
-}
+//selectors
+
+//functions
+
+console.log("hi");
+
+//event listeners
