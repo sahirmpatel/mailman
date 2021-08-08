@@ -2,7 +2,7 @@ import "./../scss/main.scss";
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
-import { data } from "browserslist";
+import prettyBytes from "pretty-bytes";
 
 //selectors
 const form = document.querySelector("[data-form]");
@@ -43,6 +43,24 @@ form.addEventListener("submit", (e) => {
       updateResponseHeaders(res.headers);
     });
 });
+
+axios.interceptors.request.use((request) => {
+  request.customData = request.customData || {};
+  request.customData.startTime = new Date().getTime();
+  return request;
+});
+
+function updateEndTime(response) {
+  response.customData = response.customData || {};
+  response.customData.time =
+    new Date().getTime() - response.config.customData.startTime;
+  return response;
+}
+
+axios.interceptors.response.use(updateEndTime, (e) => {
+  return Promise.reject(updateEndTime(e.response));
+});
+
 function createKeyValuePair() {
   const element = keyValueTemplate.content.cloneNode(true);
   element.querySelector("[data-remove-btn]").addEventListener("click", (e) => {
@@ -76,5 +94,10 @@ function updateResponseHeaders(headers) {
 
 function updateResponseDetails(response) {
   document.querySelector("[data-status]").textContent = response.status;
+  document.querySelector("[data-time]").textContent = response.customData.time;
+  document.querySelector("[data-size]").textContent = prettyBytes(
+    JSON.stringify(response.data).length +
+      JSON.stringify(response.headers).length
+  );
 }
 //event listeners
