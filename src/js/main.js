@@ -1,6 +1,7 @@
 import "./../scss/main.scss";
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import setupEditors from "./setupEditor";
 import axios from "axios";
 import prettyBytes from "pretty-bytes";
 
@@ -14,6 +15,9 @@ const keyValueTemplate = document.querySelector("[data-key-value-template]");
 const ResponseHeadersContainer = document.querySelector(
   "[data-response-headers]"
 );
+
+const { responseEditor, updateResponseEditor } = setupEditors();
+
 //functions
 queryParamsContainer.append(createKeyValuePair());
 requestHeadersContainer.append(createKeyValuePair());
@@ -39,7 +43,7 @@ form.addEventListener("submit", (e) => {
         .querySelector("[data-response-section]")
         .classList.remove("d-none");
       updateResponseDetails(res);
-      //   updateResponseEditor(res.data)
+      updateResponseEditor(res.data);
       updateResponseHeaders(res.headers);
     });
 });
