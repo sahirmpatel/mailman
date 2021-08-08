@@ -11,6 +11,9 @@ const requestHeadersContainer = document.querySelector(
   "[data-request-headers]"
 );
 const keyValueTemplate = document.querySelector("[data-key-value-template]");
+const ResponseHeadersContainer = document.querySelector(
+  "[data-response-headers]"
+);
 //functions
 queryParamsContainer.append(createKeyValuePair());
 requestHeadersContainer.append(createKeyValuePair());
@@ -29,7 +32,16 @@ form.addEventListener("submit", (e) => {
     method: document.querySelector("[data-method]").value,
     params: keyValuePairToObjects(queryParamsContainer),
     headers: keyValuePairToObjects(requestHeadersContainer),
-  }).then((res) => console.log("res", res));
+  })
+    .catch((e) => e)
+    .then((res) => {
+      document
+        .querySelector("[data-response-section]")
+        .classList.remove("d-none");
+      updateResponseDetails(res);
+      //   updateResponseEditor(res.data)
+      updateResponseHeaders(res.headers);
+    });
 });
 function createKeyValuePair() {
   const element = keyValueTemplate.content.cloneNode(true);
@@ -48,5 +60,21 @@ function keyValuePairToObjects(container) {
     if (key === "") return data;
     return { ...data, [key]: value };
   }, {});
+}
+
+function updateResponseHeaders(headers) {
+  ResponseHeadersContainer.innerHTML = "";
+  Object.entries(headers).forEach(([key, value]) => {
+    const keyElement = document.createElement("div");
+    keyElement.textContent = key;
+    ResponseHeadersContainer.append(keyElement);
+    const valueElement = document.createElement("div");
+    valueElement.textContent = value;
+    ResponseHeadersContainer.append(valueElement);
+  });
+}
+
+function updateResponseDetails(response) {
+  document.querySelector("[data-status]").textContent = response.status;
 }
 //event listeners
