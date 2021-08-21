@@ -1,6 +1,7 @@
 import "./../scss/main.scss";
 import "bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
+import "./../scss/bootswatch.min.css";
 import setupEditors from "./setupEditor";
 import axios from "axios";
 import prettyBytes from "pretty-bytes";
@@ -16,7 +17,7 @@ const ResponseHeadersContainer = document.querySelector(
   "[data-response-headers]"
 );
 
-const { responseEditor, updateResponseEditor } = setupEditors();
+const { requestEditor, updateResponseEditor } = setupEditors();
 
 //functions
 queryParamsContainer.append(createKeyValuePair());
@@ -31,11 +32,20 @@ document
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
+  let data;
+  try {
+    data = JSON.parse(requestEditor.state.doc.toString() || null);
+  } catch (e) {
+    alert("Incorrect JSON data");
+    return;
+  }
+
   axios({
     url: document.querySelector("[data-url]").value,
     method: document.querySelector("[data-method]").value,
     params: keyValuePairToObjects(queryParamsContainer),
     headers: keyValuePairToObjects(requestHeadersContainer),
+    data,
   })
     .catch((e) => e)
     .then((res) => {

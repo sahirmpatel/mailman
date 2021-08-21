@@ -8148,12 +8148,11 @@ enableDismissTrigger(Toast);
  */
 
 defineJQueryPlugin(Toast);
-},{"@popperjs/core":"../node_modules/@popperjs/core/lib/index.js"}],"../node_modules/bootstrap/dist/css/bootstrap.min.css":[function(require,module,exports) {
+},{"@popperjs/core":"../node_modules/@popperjs/core/lib/index.js"}],"scss/bootswatch.min.css":[function(require,module,exports) {
+var reloadCSS = require('_css_loader');
 
-        var reloadCSS = require('_css_loader');
-        module.hot.dispose(reloadCSS);
-        module.hot.accept(reloadCSS);
-      
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
 },{"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"../node_modules/@codemirror/text/dist/index.js":[function(require,module,exports) {
 "use strict";
 
@@ -37660,7 +37659,7 @@ require("./../scss/main.scss");
 
 require("bootstrap");
 
-require("bootstrap/dist/css/bootstrap.min.css");
+require("./../scss/bootswatch.min.css");
 
 var _setupEditor = _interopRequireDefault(require("./setupEditor"));
 
@@ -37670,6 +37669,7 @@ var _prettyBytes = _interopRequireDefault(require("pretty-bytes"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// import "bootstrap/dist/css/bootstrap.min.css";
 //selectors
 const form = document.querySelector("[data-form]");
 const queryParamsContainer = document.querySelector("[data-query-params]");
@@ -37677,7 +37677,7 @@ const requestHeadersContainer = document.querySelector("[data-request-headers]")
 const keyValueTemplate = document.querySelector("[data-key-value-template]");
 const ResponseHeadersContainer = document.querySelector("[data-response-headers]");
 const {
-  responseEditor,
+  requestEditor,
   updateResponseEditor
 } = (0, _setupEditor.default)(); //functions
 
@@ -37688,11 +37688,21 @@ document.querySelector("[data-add-query-param-btn]").addEventListener("click", (
 });
 form.addEventListener("submit", e => {
   e.preventDefault();
+  let data;
+
+  try {
+    data = JSON.parse(requestEditor.state.doc.toString() || null);
+  } catch (e) {
+    alert("Incorrect JSON data");
+    return;
+  }
+
   (0, _axios.default)({
     url: document.querySelector("[data-url]").value,
     method: document.querySelector("[data-method]").value,
     params: keyValuePairToObjects(queryParamsContainer),
-    headers: keyValuePairToObjects(requestHeadersContainer)
+    headers: keyValuePairToObjects(requestHeadersContainer),
+    data
   }).catch(e => e).then(res => {
     document.querySelector("[data-response-section]").classList.remove("d-none");
     updateResponseDetails(res);
@@ -37754,7 +37764,7 @@ function updateResponseDetails(response) {
   document.querySelector("[data-time]").textContent = response.customData.time;
   document.querySelector("[data-size]").textContent = (0, _prettyBytes.default)(JSON.stringify(response.data).length + JSON.stringify(response.headers).length);
 } //event listeners
-},{"./../scss/main.scss":"scss/main.scss","bootstrap":"../node_modules/bootstrap/dist/js/bootstrap.esm.js","bootstrap/dist/css/bootstrap.min.css":"../node_modules/bootstrap/dist/css/bootstrap.min.css","./setupEditor":"js/setupEditor.js","axios":"../node_modules/axios/index.js","pretty-bytes":"../node_modules/pretty-bytes/index.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./../scss/main.scss":"scss/main.scss","bootstrap":"../node_modules/bootstrap/dist/js/bootstrap.esm.js","./../scss/bootswatch.min.css":"scss/bootswatch.min.css","./setupEditor":"js/setupEditor.js","axios":"../node_modules/axios/index.js","pretty-bytes":"../node_modules/pretty-bytes/index.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -37782,7 +37792,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49505" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57480" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
