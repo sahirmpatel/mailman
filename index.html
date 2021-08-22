@@ -5,15 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="manifest" href="manifest.json" />
-    <title>Document</title>
+    <title>Mailman</title>
     <script src="./src/main.js" type="module" defer></script>
-    //ios support
+    <script src="./src/app.js" type="module" defer></script>
     <link rel="apple-touch-icon" href="./src/assets/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-status-bar" content="#18bc9c" />
+    <meta name="theme-color" content="#18bc9c" />
   </head>
   <body>
     <div class="p-4">
-      <h3>Request</h3>
+      <h2 class="mb-4 bg-primary text-light p-2">Request</h2>
 
       <form data-form>
         <div class="input-group mb-4">
@@ -30,11 +31,12 @@
             class="form-control"
             type="url"
             placeholder="https://example.com"
+            value="https://jsonplaceholder.typicode.com/users"
           />
           <button type="submit" class="btn btn-primary">Send</button>
         </div>
 
-        <ul class="nav nav-tabs" role="tablist">
+        <ul class="nav nav-pills" role="tablist">
           <li class="nav-item" role="presentation">
             <button
               class="nav-link active"
@@ -126,14 +128,14 @@
       </form>
 
       <div class="mt-5 d-none" data-response-section>
-        <h3>Response</h3>
+        <h2 class="mb-4 bg-primary text-light p-2">Response</h2>
         <div class="d-flex my-2">
           <div class="me-3">Status: <span data-status></span></div>
           <div class="me-3">Time: <span data-time></span>ms</div>
           <div class="me-3">Size: <span data-size></span></div>
         </div>
 
-        <ul class="nav nav-tabs" role="tablist">
+        <ul class="nav nav-pills" role="tablist">
           <li class="nav-item" role="presentation">
             <button
               class="nav-link active"
