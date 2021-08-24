@@ -1,6 +1,4 @@
 import "bootstrap";
-// import "bootstrap/dist/css/bootstrap.min.css";
-import "./bootswatch.min.css";
 import setupEditors from "./setupEditor";
 import axios from "axios";
 import prettyBytes from "pretty-bytes";
